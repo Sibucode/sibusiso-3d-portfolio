@@ -30,4 +30,4 @@ npm run build
 
 Pushing to `main` runs the GitHub Actions workflow in `.github/workflows/deploy.yml` and publishes the built site to GitHub Pages.
 
-The Pages site is public even if this repository is private. The source repository remains private.
+Both the source repository and the published site are public.
