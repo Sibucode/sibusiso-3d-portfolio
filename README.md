@@ -4,9 +4,12 @@ A responsive software engineering portfolio built with React, TypeScript, Vite, 
 
 ## Features
 
-- Interactive, responsive 3D system model
+- Motion-aware 3D system core as a site-wide animated background
+- Skippable 3D treasure-room introduction with an animated guide
+- Animated technology constellation with categorized engineering skills
 - Searchable and filterable project explorer
 - Project case studies with verified project details
+- Direct links to the public repositories for showcased projects
 - Downloadable CV and contact links
 - Reduced-motion support and keyboard-accessible controls
 

@@ -15,6 +15,7 @@ import type { ProjectTheme } from '../data/portfolioData';
 interface SceneProps {
   activeTheme: ProjectTheme;
   prefersReducedMotion?: boolean;
+  isBackground?: boolean;
 }
 
 function ResponsiveCameraFraming({ cameraPos }: { cameraPos: ProjectTheme['cameraPos'] }) {
@@ -29,7 +30,11 @@ function ResponsiveCameraFraming({ cameraPos }: { cameraPos: ProjectTheme['camer
   return <PerspectiveCamera makeDefault position={[0, 0, 5.5]} fov={fov} />;
 }
 
-function MorphingCore({ activeTheme, prefersReducedMotion = false }: SceneProps) {
+function MorphingCore({
+  activeTheme,
+  prefersReducedMotion = false,
+  isBackground = false,
+}: SceneProps) {
   const coreRef = useRef<THREE.Mesh>(null);
   const innerRef = useRef<THREE.Mesh>(null);
   const outerRingRef = useRef<THREE.Mesh>(null);
@@ -193,7 +198,7 @@ function MorphingCore({ activeTheme, prefersReducedMotion = false }: SceneProps)
         />
       </Torus>
       <Sparkles
-        count={90}
+        count={isBackground ? 56 : 90}
         scale={6}
         size={1.8}
         speed={prefersReducedMotion ? 0 : 0.4}
@@ -203,23 +208,33 @@ function MorphingCore({ activeTheme, prefersReducedMotion = false }: SceneProps)
   );
 }
 
-export default function CyberCoreScene({ activeTheme }: SceneProps) {
+export default function CyberCoreScene({
+  activeTheme,
+  isBackground = false,
+}: SceneProps) {
   const prefersReducedMotion = useReducedMotion() ?? false;
+  const sceneClassName = isBackground
+    ? 'scene-background'
+    : 'relative isolate h-[420px] w-full cursor-grab overflow-hidden rounded-[2rem] border border-sky-500/10 bg-[radial-gradient(ellipse_at_center,rgba(20,50,12,0.34),rgba(9,11,9,0.05)_58%,transparent_78%)] active:cursor-grabbing lg:h-[580px]';
 
   return (
-    <div className="relative isolate h-[420px] w-full cursor-grab overflow-hidden rounded-[2rem] border border-sky-500/10 bg-[radial-gradient(ellipse_at_center,rgba(20,50,12,0.34),rgba(9,11,9,0.05)_58%,transparent_78%)] active:cursor-grabbing lg:h-[580px]">
-      <div className="pointer-events-none absolute inset-6 rounded-[1.5rem] border border-white/[0.04]" />
-      <div className="pointer-events-none absolute left-7 top-7 z-10 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)] motion-reduce:animate-none" />
-        Interactive system model
-      </div>
-      <div className="pointer-events-none absolute right-7 top-7 z-10 font-mono text-[10px] tracking-[0.18em] text-slate-600">
-        3D / LIVE
-      </div>
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-400/10 blur-3xl" />
+    <div aria-hidden={isBackground} className={sceneClassName}>
+      {!isBackground && (
+        <>
+          <div className="pointer-events-none absolute inset-6 rounded-[1.5rem] border border-white/[0.04]" />
+          <div className="pointer-events-none absolute left-7 top-7 z-10 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)] motion-reduce:animate-none" />
+            Interactive system model
+          </div>
+          <div className="pointer-events-none absolute right-7 top-7 z-10 font-mono text-[10px] tracking-[0.18em] text-slate-600">
+            3D / LIVE
+          </div>
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-400/10 blur-3xl" />
+        </>
+      )}
       <Canvas
         camera={{ position: [0, 0, 5.5], fov: 60 }}
-        dpr={[1, 1.5]}
+        dpr={isBackground ? 1 : [1, 1.5]}
         frameloop={prefersReducedMotion ? 'demand' : 'always'}
       >
         <ResponsiveCameraFraming cameraPos={activeTheme.cameraPos} />
@@ -227,20 +242,26 @@ export default function CyberCoreScene({ activeTheme }: SceneProps) {
         <directionalLight position={[5, 5, 5]} intensity={1.8} color="#ffffff" />
         <pointLight position={[-5, -5, -5]} intensity={1.2} color={activeTheme.primaryColor} />
         <pointLight position={[0, 0, 2.4]} intensity={2.8} distance={6} color={activeTheme.primaryColor} />
-        <MorphingCore activeTheme={activeTheme} prefersReducedMotion={prefersReducedMotion} />
+        <MorphingCore
+          activeTheme={activeTheme}
+          prefersReducedMotion={prefersReducedMotion}
+          isBackground={isBackground}
+        />
         <OrbitControls
+          enabled={!isBackground}
           enableZoom={false}
           enablePan={false}
-          enableDamping={!prefersReducedMotion}
+          enableDamping={!prefersReducedMotion && !isBackground}
           autoRotate={!prefersReducedMotion}
           autoRotateSpeed={0.45}
         />
       </Canvas>
 
-      {/* Subtle HUD Badge showing active 3D mode */}
-      <div className="pointer-events-none absolute bottom-7 left-1/2 -translate-x-1/2 rounded-full border border-slate-700/70 bg-slate-950/75 px-4 py-1.5 text-center text-[10px] font-mono tracking-wider text-slate-300 backdrop-blur-md sm:text-xs">
-        NODE_STATE: <span className="uppercase text-sky-400">{activeTheme.id}</span> // DRAG TO ORBIT
-      </div>
+      {!isBackground && (
+        <div className="pointer-events-none absolute bottom-7 left-1/2 -translate-x-1/2 rounded-full border border-slate-700/70 bg-slate-950/75 px-4 py-1.5 text-center text-[10px] font-mono tracking-wider text-slate-300 backdrop-blur-md sm:text-xs">
+          NODE_STATE: <span className="uppercase text-sky-400">{activeTheme.id}</span> // DRAG TO ORBIT
+        </div>
+      )}
     </div>
   );
 }
