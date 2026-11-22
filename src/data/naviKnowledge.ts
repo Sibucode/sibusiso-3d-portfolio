@@ -81,7 +81,10 @@ export function answerNaviQuestion(question: string): NaviReply {
   const mentionedTechnology = technologies.find((technology) => query.includes(normalize(technology)));
   if (mentionedTechnology && includesAny(query, ['project', 'use', 'used', 'built', 'work', 'where'])) {
     const projects = PROJECTS.filter((project) =>
-      project.tech.some((technology) => normalize(technology) === normalize(mentionedTechnology))
+      project.tech.some((technology) =>
+        normalize(technology).includes(normalize(mentionedTechnology)) ||
+        normalize(mentionedTechnology).includes(normalize(technology))
+      )
     );
     return {
       text: `${mentionedTechnology} appears in ${projects.map((project) => project.title).join(', ')}.`,

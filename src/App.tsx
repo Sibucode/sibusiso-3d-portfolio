@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   GraduationCap,
   Trophy,
-  BriefcaseBusiness,
   Download,
   Search,
   X,
