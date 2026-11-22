@@ -47,19 +47,25 @@ const SKILL_GROUPS = [
       { name: 'Entity Framework', icon: Database },
       { name: 'REST APIs', icon: Workflow },
       { name: 'SOLID', icon: Terminal },
+      { name: 'OOP', icon: Code2 },
+      { name: 'Design patterns', icon: Workflow },
+      { name: 'Git / GitHub', icon: Code2 },
     ],
   },
   {
-    label: 'Web & mobile',
-    detail: 'Interfaces for browser and pocket',
+    label: 'Web, languages & mobile',
+    detail: 'Programming, web, and mobile',
     icon: Atom,
     skills: [
       { name: 'React', icon: Atom },
+      { name: 'JavaScript', icon: Code2 },
       { name: 'TypeScript', icon: Code2 },
       { name: 'React Native', icon: Smartphone },
       { name: 'Expo', icon: Workflow },
+      { name: 'Python', icon: Terminal },
       { name: 'Java', icon: Coffee },
       { name: 'Android', icon: Smartphone },
+      { name: 'Android Studio', icon: Smartphone },
     ],
   },
   {
@@ -71,6 +77,7 @@ const SKILL_GROUPS = [
       { name: 'PostgreSQL', icon: Database },
       { name: 'MySQL', icon: Database },
       { name: 'Firebase', icon: Flame },
+      { name: 'Firestore', icon: Database },
       { name: 'Supabase', icon: Database },
       { name: 'AWS', icon: Cloud },
     ],
@@ -83,7 +90,10 @@ const SKILL_GROUPS = [
       { name: 'JWT auth', icon: ShieldCheck },
       { name: 'Network security', icon: Workflow },
       { name: 'Threat analysis', icon: ShieldCheck },
-      { name: 'Cybersecurity & IoT', icon: Terminal },
+      { name: 'Cybersecurity', icon: ShieldCheck },
+      { name: 'IoT', icon: Terminal },
+      { name: 'Data analytics', icon: Database },
+      { name: 'Automation', icon: Workflow },
     ],
   },
 ];
@@ -99,8 +109,8 @@ const JOURNEY_STEPS = [
   {
     phase: '01 / LEARNING',
     title: 'A strong academic foundation',
-    detail: 'Final-year Bachelor of Information Technology student at Nelson Mandela University in Gqeberha.',
-    evidence: ['85.6% S1 average', 'Final-year BIT'],
+    detail: 'Final-year Bachelor of Information Technology student at Nelson Mandela University, recognised for academic achievement.',
+    evidence: ['80% average (2025)', '85.6% final-year S1 (2026)'],
     icon: GraduationCap,
     section: 'skills',
     action: 'Explore the toolkit',
@@ -108,8 +118,8 @@ const JOURNEY_STEPS = [
   {
     phase: '02 / BUILDING',
     title: 'Software for real workflows',
-    detail: 'Project work spans campus transport and support, healthcare, automobile production, and Python tools.',
-    evidence: [`${PROJECTS.length} featured builds`, 'Backend · Mobile · Full-stack'],
+    detail: 'Owns the Driver module in a five-member campus transport capstone, alongside work across mobile, healthcare, and manufacturing.',
+    evidence: [`${PROJECTS.length} featured builds`, 'Madibaz Transit · Driver module'],
     icon: Code2,
     section: 'projects',
     action: 'See selected builds',
@@ -117,8 +127,8 @@ const JOURNEY_STEPS = [
   {
     phase: '03 / EXPLORING',
     title: 'Security & cloud foundations',
-    detail: 'The CV lists a Digital Ubuntu Cybersecurity & AI internship, Cisco Cybersecurity & IoT learning, and AWS Cloud Engineering.',
-    evidence: ['Cybersecurity', 'Cloud engineering'],
+    detail: 'Completed the Digital Ubuntu Cybersecurity & AI internship and delivered awareness sessions to community and high-school learners.',
+    evidence: ['30+ participants', 'Cybersecurity · Cloud · IoT'],
     icon: ShieldCheck,
     section: 'skills',
     action: 'View technical skills',
@@ -126,8 +136,8 @@ const JOURNEY_STEPS = [
   {
     phase: '04 / CONTRIBUTING',
     title: 'Recognition and community',
-    detail: 'School of IT Hackathon second place, Golden Key membership, Top BIT Second-Year Student, and BIT Academic Mentor.',
-    evidence: ['Hackathon · 2nd place', 'Golden Key · Mentor'],
+    detail: 'School of IT Hackathon second place, Student Merit Award recipient across multiple years, Golden Key member, and BIT Academic Mentor.',
+    evidence: ['Hackathon · 2nd place', 'Student Merit · Golden Key'],
     icon: Trophy,
     section: 'contact',
     action: 'Connect with Sibusiso',
@@ -158,12 +168,16 @@ function GuideCharacter() {
 
 function PortfolioGameIntro({
   stage,
+  sceneRequested,
   onStart,
+  onSceneReady,
   onPlay,
   onSkip,
 }: {
   stage: PortfolioGameStage;
+  sceneRequested: boolean;
   onStart: () => void;
+  onSceneReady: () => void;
   onPlay: () => void;
   onSkip: () => void;
 }) {
@@ -196,9 +210,13 @@ function PortfolioGameIntro({
       }}
     >
       <div aria-hidden="true" className="game-scene">
-        <Suspense fallback={<div className="game-scene-fallback" />}>
-          <PortfolioGameScene stage={stage} />
-        </Suspense>
+        {sceneRequested ? (
+          <Suspense fallback={<div className="game-scene-fallback" />}>
+            <PortfolioGameScene stage={stage} onReady={onSceneReady} />
+          </Suspense>
+        ) : (
+          <div className="game-scene-fallback" />
+        )}
       </div>
       <div aria-hidden="true" className="game-vignette" />
       <div className="game-hud">
@@ -207,7 +225,7 @@ function PortfolioGameIntro({
       </div>
 
       <AnimatePresence mode="wait">
-        {stage === 'title' && (
+        {stage === 'title' && !sceneRequested && (
           <motion.section
             key="title"
             className="game-copy game-copy--title"
@@ -229,6 +247,22 @@ function PortfolioGameIntro({
               <Play aria-hidden="true" fill="currentColor" /> Start game
             </button>
             <p className="game-control-hint">No controller needed · just explore</p>
+          </motion.section>
+        )}
+        {stage === 'title' && sceneRequested && (
+          <motion.section
+            key="loading-room"
+            role="status"
+            aria-live="polite"
+            className="game-copy game-copy--opening"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <p className="game-eyebrow"><span /> PREPARING THE ROOM</p>
+            <h1 id="game-title">Waking the treasure room...</h1>
+            <p className="game-intro-description mx-auto">The interactive scene loads when you choose to enter.</p>
+            <div className="game-loading-track"><span /></div>
           </motion.section>
         )}
         {stage === 'treasure' && (
@@ -510,7 +544,9 @@ function PortfolioGuide({
 
 export default function App() {
   const [gameStage, setGameStage] = useState<PortfolioGameStage>('title');
+  const [gameSceneRequested, setGameSceneRequested] = useState(false);
   const [showGameIntro, setShowGameIntro] = useState(true);
+  const [backgroundSceneReady, setBackgroundSceneReady] = useState(false);
   const [isNaviOpen, setIsNaviOpen] = useState(false);
   const [naviView, setNaviView] = useState<NaviView>('ask');
   const [projectSearch, setProjectSearch] = useState('');
@@ -527,6 +563,13 @@ export default function App() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (showGameIntro) return;
+
+    const timeoutId = window.setTimeout(() => setBackgroundSceneReady(true), 700);
+    return () => window.clearTimeout(timeoutId);
+  }, [showGameIntro]);
 
   useEffect(() => {
     const dialog = caseStudyDialogRef.current;
@@ -555,7 +598,8 @@ export default function App() {
     return matchesCategory && searchableText.includes(normalizedSearch);
   });
 
-  const startTreasureRoom = () => setGameStage('treasure');
+  const startTreasureRoom = () => setGameSceneRequested(true);
+  const handleGameSceneReady = () => setGameStage('treasure');
   const skipGameIntro = () => {
     if (gameTransitionTimerRef.current !== null) {
       window.clearTimeout(gameTransitionTimerRef.current);
@@ -581,7 +625,9 @@ export default function App() {
             <PortfolioGameIntro
               key="portfolio-game-intro"
               stage={gameStage}
+              sceneRequested={gameSceneRequested}
               onStart={startTreasureRoom}
+              onSceneReady={handleGameSceneReady}
               onPlay={openPortfolio}
               onSkip={skipGameIntro}
             />
@@ -592,7 +638,7 @@ export default function App() {
           className="relative min-h-screen overflow-x-clip bg-[#070907] text-slate-100 selection:bg-lime-300/30"
         >
           <div aria-hidden="true" className="site-atmosphere pointer-events-none fixed inset-0 z-0 overflow-hidden">
-            {!showGameIntro && (
+            {!showGameIntro && backgroundSceneReady && (
               <div className="site-3d-art">
                 <Suspense fallback={null}>
                   <CyberCoreScene activeTheme={DEFAULT_THEME} isBackground />
@@ -668,7 +714,7 @@ export default function App() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime-300 opacity-50 motion-reduce:animate-none" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-lime-300" />
               </span>
-              NMU // Final-year BIT · Gqeberha
+              JOHANNESBURG // OPEN TO RELOCATION
             </div>
 
             <div className="space-y-4">
@@ -723,6 +769,12 @@ export default function App() {
               >
                 <MessageCircle aria-hidden="true" className="h-4 w-4" /> Ask Navi
               </button>
+              <a
+                href="mailto:stachmaro@gmail.com"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-lime-300/50 hover:bg-lime-300/[0.07]"
+              >
+                <Mail aria-hidden="true" className="h-4 w-4 text-lime-300" /> Email me
+              </a>
             </div>
 
             <div className="hero-stats-grid">
@@ -1070,8 +1122,8 @@ export default function App() {
               <div className="flex items-center gap-3">
                 <span className="skill-note-icon"><ShieldCheck aria-hidden="true" /></span>
                 <div>
-                  <h3>Security & cloud foundations</h3>
-                  <p>Cisco Intro to Cybersecurity & IoT · AWS Cloud Engineering · Digital Ubuntu Cybersecurity & AI Intern</p>
+                  <h3>Security, AI & cloud learning</h3>
+                  <p>Cisco Cybersecurity & IoT · Cybersecurity Workshop · Google AI Essentials · AWS Cloud Engineering · Digital Ubuntu Internship</p>
                 </div>
               </div>
             </article>
@@ -1080,7 +1132,7 @@ export default function App() {
                 <span className="skill-note-icon"><Trophy aria-hidden="true" /></span>
                 <div>
                   <h3>Recognition & community</h3>
-                  <p>Golden Key · Top BIT Second-Year Student · BIT Academic Mentor</p>
+                  <p>Student Merit Awards · SOIT Hackathon 2nd place · Golden Key · Top BIT Student · BIT Academic Mentor</p>
                 </div>
               </div>
             </article>
@@ -1103,6 +1155,9 @@ export default function App() {
                 <h2 className="text-2xl font-bold text-slate-100 sm:text-3xl">Let’s build something useful.</h2>
                 <p className="mt-3 text-sm leading-relaxed text-slate-400">
                   Have a role, collaboration, or project in mind? I’d be glad to hear from you.
+                </p>
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-slate-500">
+                  Johannesburg, Gauteng · Open to relocation
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">

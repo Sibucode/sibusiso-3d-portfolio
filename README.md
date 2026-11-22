@@ -4,11 +4,11 @@ A responsive software engineering portfolio built with React, TypeScript, Vite, 
 
 ## Features
 
-- Motion-aware 3D system core as a site-wide animated background
-- Skippable 3D treasure-room introduction with an animated guide
+- Motion-aware 3D system core as a site-wide background, deferred until the portfolio is visible
+- Skippable 3D treasure-room introduction, loaded on entry with a lightweight CSS fallback
 - Animated technology constellation with categorized engineering skills
-- Navi Q&A grounded in local CV and project data; no external AI service
-- CV-grounded academic, project, security, and community journey
+- Navi Q&A grounded in locally curated CV and project facts; no external AI service
+- CV-aligned academic, project, security, and community journey
 - Searchable and filterable project explorer
 - Project case studies with verified project details
 - Direct links to the public repositories for showcased projects

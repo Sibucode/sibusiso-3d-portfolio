@@ -225,7 +225,13 @@ function Room({ stage, reducedMotion }: { stage: PortfolioGameStage; reducedMoti
   );
 }
 
-export default function PortfolioGameScene({ stage }: { stage: PortfolioGameStage }) {
+export default function PortfolioGameScene({
+  stage,
+  onReady,
+}: {
+  stage: PortfolioGameStage;
+  onReady: () => void;
+}) {
   const reducedMotion = useReducedMotion() ?? false;
 
   return (
@@ -234,6 +240,7 @@ export default function PortfolioGameScene({ stage }: { stage: PortfolioGameStag
       dpr={[1, 1.25]}
       frameloop={reducedMotion ? 'demand' : 'always'}
       gl={{ antialias: true, alpha: false, powerPreference: 'low-power' }}
+      onCreated={onReady}
     >
       <Room stage={stage} reducedMotion={reducedMotion} />
     </Canvas>

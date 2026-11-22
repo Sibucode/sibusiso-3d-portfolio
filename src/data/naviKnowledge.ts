@@ -79,7 +79,7 @@ export function answerNaviQuestion(question: string): NaviReply {
   const technologies = [...new Set(PROJECTS.flatMap((project) => project.tech))]
     .sort((left, right) => normalize(right).length - normalize(left).length);
   const mentionedTechnology = technologies.find((technology) => query.includes(normalize(technology)));
-  if (mentionedTechnology && includesAny(query, ['project', 'use', 'used', 'built', 'work', 'where'])) {
+  if (mentionedTechnology && includesAny(query, ['project', 'use', 'used', 'built', 'work', 'where', 'experience'])) {
     const projects = PROJECTS.filter((project) =>
       project.tech.some((technology) =>
         normalize(technology).includes(normalize(mentionedTechnology)) ||
@@ -94,28 +94,42 @@ export function answerNaviQuestion(question: string): NaviReply {
 
   if (includesAny(query, ['education', 'degree', 'studying', 'study', 'university', 'nmu', 'average', 'grades'])) {
     return {
-      text: 'Sibusiso is a final-year Bachelor of Information Technology (BIT) student at Nelson Mandela University in Gqeberha. His portfolio lists an 85.6% first-semester average.',
+      text: 'Sibusiso is a final-year Bachelor of Information Technology (BIT) student at Nelson Mandela University. His CV lists an 80% academic average in 2025 and an 85.6% average in the first semester of his final year (2026).',
       section: 'journey',
     };
   }
 
-  if (includesAny(query, ['award', 'awards', 'achievement', 'achievements', 'hackathon', 'golden key', 'mentor', 'recognition'])) {
+  if (includesAny(query, ['award', 'awards', 'achievement', 'achievements', 'hackathon', 'golden key', 'mentor', 'recognition', 'merit award'])) {
     return {
-      text: 'His listed recognition includes second place at the School of IT Hackathon, Golden Key membership, Top BIT Second-Year Student, and BIT Academic Mentor.',
+      text: 'His recognition includes second place at the 2026 School of IT Hackathon, Student Merit Awards across multiple years, Top BIT Second-Year Student, Golden Key membership, and BIT Academic Mentor.',
       section: 'journey',
     };
   }
 
-  if (includesAny(query, ['cybersecurity', 'cyber security', 'security', 'cloud', 'cisco', 'aws', 'internship', 'intern'])) {
+  if (includesAny(query, ['certification', 'certifications', 'certificate', 'certificates', 'credentials'])) {
     return {
-      text: 'The CV and portfolio highlight cybersecurity and cloud foundations, including a Digital Ubuntu Cybersecurity & AI internship, Cisco Introduction to Cybersecurity & IoT, AWS Cloud Engineering, network security, and threat analysis.',
+      text: 'The CV lists Cisco Introduction to Cybersecurity and Introduction to IoT (2024), a Cybersecurity Workshop Certificate from NetCampus Group and the Gauteng Government (2025), Google AI Essentials (2026), and Intro to Cloud Engineering (AWS) from Codewrkx (2026).',
       section: 'skills',
+    };
+  }
+
+  if (includesAny(query, ['cybersecurity', 'cyber security', 'security', 'cloud', 'cisco', 'aws', 'internship', 'intern', 'digital ubuntu'])) {
+    return {
+      text: 'Sibusiso completed the Digital Ubuntu Cybersecurity & AI internship from January to April 2026. He supported community organisations with awareness and prevention and delivered sessions to 30+ community and high-school participants. His CV also lists Cisco cybersecurity and IoT study, a cybersecurity workshop, and AWS cloud engineering.',
+      section: 'skills',
+    };
+  }
+
+  if (includesAny(query, ['experience', 'work history', 'employment'])) {
+    return {
+      text: 'His experience includes an in-progress five-member Madibaz Transit capstone where he owns the Driver module, second place at the 2026 School of IT Hackathon for Campus Companion, and a January–April 2026 Digital Ubuntu Cybersecurity & AI internship. His selected projects also cover healthcare, manufacturing simulation, and mobile development.',
+      section: 'journey',
     };
   }
 
   if (includesAny(query, ['skill', 'skills', 'stack', 'technology', 'technologies', 'programming', 'framework', 'database', 'backend', 'mobile'])) {
     return {
-      text: 'The portfolio highlights C#, ASP.NET Core, Entity Framework Core, REST APIs, SQL Server, PostgreSQL, MySQL, React, React Native, TypeScript, Expo, Java, Android, Python, Firebase, Supabase, and AWS.',
+      text: 'The CV highlights C#, Python, Java, JavaScript, TypeScript, SQL, ASP.NET Core Web API, Entity Framework Core, REST APIs, React, React Native, Expo, Android, Firebase/Firestore, SQL Server, MySQL, PostgreSQL, and Supabase. It also lists OOP, SOLID, design patterns, Git/GitHub, JWT, accessibility-focused UI, network security, and cloud fundamentals.',
       section: 'skills',
     };
   }
@@ -142,8 +156,8 @@ export function answerNaviQuestion(question: string): NaviReply {
     };
   }
 
-  if (includesAny(query, ['where', 'location', 'located', 'live'])) {
-    return { text: 'The portfolio places Sibusiso at Nelson Mandela University in Gqeberha, South Africa.', section: 'about' };
+  if (includesAny(query, ['where', 'location', 'located', 'live', 'relocation', 'relocate', 'based'])) {
+    return { text: 'Sibusiso is based in Johannesburg, Gauteng, and is open to relocation. He is completing his BIT at Nelson Mandela University.', section: 'about' };
   }
 
   if (includesAny(query, ['experience', 'background', 'about sibusiso', 'who is sibusiso'])) {

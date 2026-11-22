@@ -34,13 +34,14 @@ export const PROJECTS: Project[] = [
   {
     title: 'Madibaz Transit — Fleet & Shuttle Platform',
     category: 'Transport',
-    badge: 'Final-Year Capstone',
+    badge: 'Final-Year Project · In Progress',
     description:
-      'Intelligent campus shuttle queue and fleet management system digitising reservations, boarding, and real-time trip workflows.',
+      'Five-member final-year team developing an intelligent shuttle queue and fleet platform for campus transport, reservations, boarding, and fleet workflows across Student, Marshal, Shuttle Manager, Admin, and Driver modules.',
     tech: ['C#', 'ASP.NET Core Web API', 'Entity Framework Core', 'SQL Server', 'JWT'],
     highlights: [
-      'Own the Driver module: profiles, shift management, route assignments, incident and delay reporting.',
-      'Engineered a structured trip lifecycle (boarding, departure, in-transit, arrival, completion) with operational timestamps.',
+      'Own the Driver module: profiles, shifts, shuttle and route assignments, trip progression, incident reporting, and delay reporting.',
+      'Built its backend with ASP.NET Core Web API, Entity Framework Core, SQL Server, JWT authentication, and role-aware driver workflows.',
+      'Implemented a trip lifecycle from boarding through completion, with operational timestamps and status transitions.',
     ],
     repositoryUrl: 'https://github.com/D3vSyndicate/Madibaz_Transit',
     theme: {
@@ -56,12 +57,12 @@ export const PROJECTS: Project[] = [
   {
     title: 'Campus Companion',
     category: 'Campus',
-    badge: '2nd Place — School of IT Hackathon',
+    badge: '2nd Place · School of IT Hackathon · 2026',
     description:
-      'Mobile-first orientation and support platform built for incoming first-year students at Nelson Mandela University.',
+      'Five-member hackathon team project: a mobile-first orientation and support platform for incoming first-year students at Nelson Mandela University.',
     tech: ['React Native', 'TypeScript', 'Expo', 'Supabase', 'PostgreSQL'],
     highlights: [
-      'Led student-facing UX with adjustable text sizing and accessibility-first navigation.',
+      'Focused on the student-facing experience: accessible UI, adjustable text sizing, and supportive messaging.',
       'Built schedules, support pathways, navigation, and real-time announcements.',
     ],
     repositoryUrl: 'https://github.com/D3vSyndicate/Campus-Companion',
@@ -78,7 +79,7 @@ export const PROJECTS: Project[] = [
   {
     title: 'Cool Rides — Automobile Production Simulation',
     category: 'Manufacturing',
-    badge: 'C# Manufacturing Simulation',
+    badge: 'C# Manufacturing Simulation · 2025',
     description:
       'Multithreaded C# Windows Forms simulation of automobile production, built around vehicle orders, assembly lines, and shared production resources.',
     tech: ['C#', 'Windows Forms', '.NET Framework 4.7.2', 'Multithreading', 'Design Patterns'],
@@ -100,7 +101,7 @@ export const PROJECTS: Project[] = [
   {
     title: 'Gym Mobile Application',
     category: 'Mobile',
-    badge: 'Android / Java / Firebase',
+    badge: 'Group Project · Android / Java / Firebase',
     description:
       'Android gym-management app supporting trainers, members, workout programmes, and scheduled training sessions.',
     tech: ['Java', 'Android', 'Firebase', 'Firestore'],
@@ -122,7 +123,7 @@ export const PROJECTS: Project[] = [
   {
     title: 'Medical Practice Management System',
     category: 'Healthcare',
-    badge: 'Full-Stack Web Application',
+    badge: 'Full-Stack Web Application · In Progress',
     description:
       'Centralised system replacing manual patient record management across patients, medical records, and appointments.',
     tech: ['ASP.NET Core Web API', 'Entity Framework', 'React', 'SQL Server'],
@@ -143,7 +144,7 @@ export const PROJECTS: Project[] = [
   {
     title: 'Prescription Management Web App',
     category: 'Healthcare',
-    badge: 'Healthcare & Inventory',
+    badge: 'Healthcare Web App · 2025–2026',
     description:
       'Web-based system digitising pharmacy workflows, including prescription management, medication dispensing, and stock tracking.',
     tech: ['ASP.NET Core', 'React', 'SQL Server'],
